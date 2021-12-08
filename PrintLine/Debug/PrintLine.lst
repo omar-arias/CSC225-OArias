@@ -1,0 +1,109 @@
+Microsoft (R) Macro Assembler Version 14.29.30137.0	    12/02/21 12:02:03
+main.asm						     Page 1 - 1
+
+
+				.386P
+				.model flat
+
+				extern _ExitProcess@4: near
+				extern _GetStdHandle@4: near
+				extern _WriteConsoleA@20: near
+				extern _ReadConsoleA@20: near
+
+
+ 00000000			.data
+
+ 00000000 48 65 6C 6C 6F	msg		byte	'Hello World!', 10
+	   20 57 6F 72 6C
+	   64 21 0A
+ 0000000D 00000000		handle	dword	?
+ 00000011 00000000		written	dword	?
+
+ 00000000			.code
+
+ 00000000			main PROC near
+ 00000000			_main:
+					
+ 00000000  68 00000000 R		push offset msg	; Pushing msg onto stack, to be used by printLine
+ 00000005  E8 00000007			call printLine
+
+ 0000000A  6A 00			push 0
+ 0000000C  E8 00000000 E		call _ExitProcess@4
+ 00000011			main ENDP
+
+ 00000011			printLine PROC
+ 00000011			_printLine:
+
+ 00000011  55				push ebp			; Saving old base pointer
+ 00000012  8B EC			mov ebp, esp		; Setting new base pointer
+ 00000014  8B 5D 08			mov ebx, [ebp+8]	; Moving msg into ebx
+										; + 8 because msg located 2 spaces above current stack pointer
+
+					; handle = GetStdHandle(-11)
+ 00000017  6A F5			push -11
+ 00000019  E8 00000000 E		call _GetSTDHandle@4
+ 0000001E  A3 0000000D R		mov handle, eax
+
+					; WriteConsole(handle, ebx, 5, written,0)
+ 00000023  6A 00			push 0
+ 00000025  68 00000011 R		push offset written
+ 0000002A  6A 0D			push 13
+ 0000002C  53				push ebx
+ 0000002D  FF 35 0000000D R		push handle
+ 00000033  E8 00000000 E		call _WriteConsoleA@20
+
+ 00000038  5D				pop ebp				; Restore old base pointer
+					
+ 00000039  C3				ret
+ 0000003A			printLine ENDP
+
+				END
+
+Microsoft (R) Macro Assembler Version 14.29.30137.0	    12/02/21 12:02:03
+main.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000015 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000003A Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000011 Public
+  _main  . . . . . . . . . . . .	L Near	 00000000 _TEXT	
+printLine  . . . . . . . . . . .	P Near	 00000011 _TEXT	Length= 00000029 Public
+  _printLine . . . . . . . . . .	L Near	 00000011 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+_ExitProcess@4 . . . . . . . . .	L Near	 00000000 FLAT	External
+_GetStdHandle@4  . . . . . . . .	L Near	 00000000 FLAT	External
+_ReadConsoleA@20 . . . . . . . .	L Near	 00000000 FLAT	External
+_WriteConsoleA@20  . . . . . . .	L Near	 00000000 FLAT	External
+handle . . . . . . . . . . . . .	DWord	 0000000D _DATA	
+msg  . . . . . . . . . . . . . .	Byte	 00000000 _DATA	
+written  . . . . . . . . . . . .	DWord	 00000011 _DATA	
+
+	   0 Warnings
+	   0 Errors
