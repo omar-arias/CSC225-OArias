@@ -1,0 +1,89 @@
+Microsoft (R) Macro Assembler Version 14.29.30137.0	    11/28/21 16:00:18
+main.asm						     Page 1 - 1
+
+
+				.386P
+				.model flat
+
+				extern _ExitProcess@4: near
+				extern _GetStdHandle@4: near
+				extern _WriteConsoleA@20: near
+				extern _ReadConsoleA@20: near
+
+
+ 00000000			.data
+
+ 00000000 0A			num1	db	10
+ 00000001 14			num2	db	20
+ 00000002 1E			num3	db	30
+ 00000003 28			num4	db	40
+
+ 00000000			.code
+
+ 00000000			main PROC near
+ 00000000			_main:
+					
+ 00000000  A0 00000000 R		mov al, [num1]
+ 00000005  8A 1D 00000003 R		mov	bl, [num4]	
+
+ 0000000B  88 1D 00000000 R		mov	[num1], bl	;bl holds value of num4, moves into num1
+ 00000011  A2 00000003 R		mov	[num4],	al	;al holds value of num1, moves into num4
+					
+ 00000016  A0 00000001 R		mov al, [num2]
+ 0000001B  8A 1D 00000002 R		mov bl, [num3]
+
+ 00000021  88 1D 00000001 R		mov [num2], bl	;bl holds value of num3, moves into num2
+ 00000027  A2 00000002 R		mov [num3], al	;al holds value of num2, moves into num3
+					
+ 0000002C  6A 00			push 0
+ 0000002E  E8 00000000 E		call _ExitProcess@4
+ 00000033			main ENDP
+				END
+
+Microsoft (R) Macro Assembler Version 14.29.30137.0	    11/28/21 16:00:18
+main.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000004 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000033 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000033 Public
+  _main  . . . . . . . . . . . .	L Near	 00000000 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000000h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+_ExitProcess@4 . . . . . . . . .	L Near	 00000000 FLAT	External
+_GetStdHandle@4  . . . . . . . .	L Near	 00000000 FLAT	External
+_ReadConsoleA@20 . . . . . . . .	L Near	 00000000 FLAT	External
+_WriteConsoleA@20  . . . . . . .	L Near	 00000000 FLAT	External
+num1 . . . . . . . . . . . . . .	Byte	 00000000 _DATA	
+num2 . . . . . . . . . . . . . .	Byte	 00000001 _DATA	
+num3 . . . . . . . . . . . . . .	Byte	 00000002 _DATA	
+num4 . . . . . . . . . . . . . .	Byte	 00000003 _DATA	
+
+	   0 Warnings
+	   0 Errors
